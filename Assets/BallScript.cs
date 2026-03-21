@@ -1,9 +1,7 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class BallScript : MonoBehaviour
 {
-    private InputAction jumpAction;
     private Rigidbody2D rigidbody;
 
     private float velocityX;
@@ -24,7 +22,7 @@ public class BallScript : MonoBehaviour
     void Start()
     {
         ballState = BallState.Inactive;
-        jumpAction = InputSystem.actions.FindAction("Jump");
+        
         rigidbody = GetComponent<Rigidbody2D>();
 
         velocityX = 5;
@@ -34,7 +32,12 @@ public class BallScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ballState == BallState.Inactive && jumpAction.WasPressedThisFrame())
+
+    }
+
+    public void SetBallAsActive()
+    {
+        if (ballState == BallState.Inactive)
         {
             ballState = BallState.Active;
             rigidbody.linearVelocity = new Vector2(velocityX, velocityY);
