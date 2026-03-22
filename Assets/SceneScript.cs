@@ -23,6 +23,11 @@ public class SceneScript : MonoBehaviour
     }
 
     public GameState gameState;
+
+    public void AddPoints()
+    {
+        playerScore += 100;
+    }
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -53,6 +58,8 @@ public class SceneScript : MonoBehaviour
 
         if (gameState == GameState.Game)
         {
+            playerScoreText.text = $"Score: {playerScore}";
+
             if (ballScript.isBottomWallHit)
             {
                 ballScript.ResetBall();

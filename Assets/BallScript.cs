@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.LowLevelPhysics2D.PhysicsShape;
 
 public class BallScript : MonoBehaviour
 {
@@ -65,18 +66,27 @@ public class BallScript : MonoBehaviour
                 isBottomWallHit = true;
                 return;
             }
-            
-            if (collision.gameObject.CompareTag("TopWall") || collision.gameObject.CompareTag("PlayerPaddle"))
+
+            //if (collision.gameObject.CompareTag("TopWall") || collision.gameObject.CompareTag("PlayerPaddle"))
+            //{
+            //    velocityY *= -1;
+            //}
+
+            //if (collision.gameObject.CompareTag("LeftWall") || collision.gameObject.CompareTag("RightWall"))
+            //{
+            //    velocityX *= -1;
+            //}
+
+            if (collision.gameObject.CompareTag("PlayerPaddle"))
             {
-                velocityY *= -1;
+                var contactPoint = collision.GetContact(0);
+                print(contactPoint.collider.name + " hit " + contactPoint.otherCollider.name);
+                Vector2 localPoint = transform.InverseTransformPoint(contactPoint.point);
+                float normalized = localPoint.x / (collision.collider.bounds.extents.x);
+                print(normalized);
             }
 
-            if (collision.gameObject.CompareTag("LeftWall") || collision.gameObject.CompareTag("RightWall"))
-            {
-                velocityX *= -1;
-            }
-
-            rigidbody.linearVelocity = new Vector2(velocityX, velocityY);
+            //rigidbody.linearVelocity = new Vector2(velocityX, velocityY);
         }
     }
 }
