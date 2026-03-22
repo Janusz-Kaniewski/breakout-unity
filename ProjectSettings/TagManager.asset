@@ -11,6 +11,9 @@ TagManager:
   - TopWall
   - BottomWall
   - SceneScript
+  - GameOverScreen
+  - BlocksManager
+  - Block
   layers:
   - Default
   - TransparentFX

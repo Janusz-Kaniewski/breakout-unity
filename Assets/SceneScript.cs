@@ -14,6 +14,9 @@ public class SceneScript : MonoBehaviour
     private int playerLives = 2;
     private BallScript ballScript;
     private PlayerPaddleScript playerPaddleScript;
+    private BlocksManagerScript blocksManagerScript;
+
+    public GameObject gameOverScreen;
 
     public enum GameState
     {
@@ -36,11 +39,20 @@ public class SceneScript : MonoBehaviour
         
         ballScript = GameObject.FindGameObjectWithTag("Ball").GetComponent<BallScript>();
         playerPaddleScript = GameObject.FindGameObjectWithTag("PlayerPaddle").GetComponent<PlayerPaddleScript>();
+        blocksManagerScript = GameObject.FindGameObjectWithTag("BlocksManager").GetComponent<BlocksManagerScript>();
 
         jumpAction = InputSystem.actions.FindAction("Jump");
 
         ballsLeftText.text = $"Balls: {playerLives}";
         playerScoreText.text = $"Score: {playerScore}";
+    }
+
+    public void NextLevel()
+    {
+        gameState = GameState.Begin;
+        ballScript.ResetBall();
+        playerPaddleScript.ResetPaddle();
+        playInfoText.alpha = 1;
     }
 
     // Update is called once per frame
@@ -77,13 +89,30 @@ public class SceneScript : MonoBehaviour
                 else
                 {
                     gameState = GameState.GameOver;
+                    playerPaddleScript.DisableMovement();
+                    gameOverScreen.SetActive(true);
                 }
             }
         }
 
         if (gameState == GameState.GameOver)
         {
-            
+            if (jumpAction.WasPressedThisFrame())
+            {
+                gameOverScreen.SetActive(false);
+                ballScript.SetBallAsActive();
+                gameState = GameState.Begin;
+                playInfoText.alpha = 0;
+                ballScript.ResetBall();
+                playerPaddleScript.ResetPaddle();
+                blocksManagerScript.ResetAndArrange();
+                playerScore = 0;
+                playerLives = 2;
+                playInfoText.alpha = 1;
+
+                ballsLeftText.text = $"Balls: {playerLives}";
+                playerScoreText.text = $"Score: {playerScore}";
+            }
         }
     }
 }

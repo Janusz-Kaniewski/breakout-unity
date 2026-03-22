@@ -6,6 +6,8 @@ public class PlayerPaddleScript : MonoBehaviour
     private InputAction moveAction;
     private BallScript ballScript;
 
+    private bool isMovementDisabled;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,12 +18,18 @@ public class PlayerPaddleScript : MonoBehaviour
     public void ResetPaddle()
     {
         transform.position = new Vector3(0, -4.22f, 0);
+        isMovementDisabled = false;
+    }
+
+    public void DisableMovement()
+    {
+        isMovementDisabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (moveAction.IsPressed())
+        if (moveAction.IsPressed() && !isMovementDisabled)
         {
             var value = moveAction.ReadValue<Vector2>();
 
