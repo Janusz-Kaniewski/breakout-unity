@@ -93,11 +93,13 @@ public class BallScript : MonoBehaviour
 
             if (collision.gameObject.CompareTag("PlayerPaddle"))
             {
-                //var contactPoint = collision.GetContact(0);
-                //print(contactPoint.collider.name + " hit " + contactPoint.otherCollider.name);
-                //Vector2 localPoint = transform.InverseTransformPoint(contactPoint.point);
-                //float normalized = localPoint.x / (collision.collider.bounds.extents.x);
-                //print(normalized);
+                var contactPoint = collision.GetContact(0);
+                var collider = contactPoint.collider;
+
+                Vector2 localPoint = collider.transform.InverseTransformPoint(contactPoint.point);
+                var nomalizedDistanceOnPadletFromCenter = localPoint.x / (collider.bounds.size.x / 2.0f);
+
+                rigidbody.linearVelocityX = 5 * nomalizedDistanceOnPadletFromCenter;
             }
         }
     }
