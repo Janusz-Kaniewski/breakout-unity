@@ -67,26 +67,38 @@ public class BallScript : MonoBehaviour
                 return;
             }
 
-            //if (collision.gameObject.CompareTag("TopWall") || collision.gameObject.CompareTag("PlayerPaddle"))
-            //{
-            //    velocityY *= -1;
-            //}
+            if (rigidbody.linearVelocityY > -1 && rigidbody.linearVelocityY < 1)
+            {
+                if (rigidbody.linearVelocityY < 0)
+                {
+                    rigidbody.linearVelocityY = -2;
+                }
+                else
+                {
+                    rigidbody.linearVelocityY = 2;
+                }
+            }
 
-            //if (collision.gameObject.CompareTag("LeftWall") || collision.gameObject.CompareTag("RightWall"))
-            //{
-            //    velocityX *= -1;
-            //}
+            if (rigidbody.linearVelocityX > -1 && rigidbody.linearVelocityX < 1)
+            {
+                if (rigidbody.linearVelocityX < 0)
+                {
+                    rigidbody.linearVelocityX = -5;
+                }
+                else
+                {
+                    rigidbody.linearVelocityX = 5;
+                }
+            }
 
             if (collision.gameObject.CompareTag("PlayerPaddle"))
             {
-                var contactPoint = collision.GetContact(0);
-                print(contactPoint.collider.name + " hit " + contactPoint.otherCollider.name);
-                Vector2 localPoint = transform.InverseTransformPoint(contactPoint.point);
-                float normalized = localPoint.x / (collision.collider.bounds.extents.x);
-                print(normalized);
+                //var contactPoint = collision.GetContact(0);
+                //print(contactPoint.collider.name + " hit " + contactPoint.otherCollider.name);
+                //Vector2 localPoint = transform.InverseTransformPoint(contactPoint.point);
+                //float normalized = localPoint.x / (collision.collider.bounds.extents.x);
+                //print(normalized);
             }
-
-            //rigidbody.linearVelocity = new Vector2(velocityX, velocityY);
         }
     }
 }
